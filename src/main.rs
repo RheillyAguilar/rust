@@ -2,61 +2,45 @@
 
 fn main() {
 
+    // let s: &str = "hello, world";
 
-    // // Use as many approaches as you can to make it work
-    // let x: String= String::from("Hello world");
-    // let y: String = x.clone();
-    // println!("{}, {}",x, y);
-
-    // let s1: String = String::from("Hello world");
-    // let s2: String = take_ownership(s1);
-    // println!("{}", s2);
+    // let s: &str = "hello, world";
+    // greetings(s)
     // }
-    // // Only modify the code below!
-    // fn take_ownership(s: String) -> String {
-    //     println!("{}", s);
-    //     s
-    // }
-
-    // let s: String = give_ownership();
-    // println!("{}", s);
-    // }
-
-    // // Only modify the code below!
-    // fn give_ownership() -> String {
-    //     let s = String::from("Hello world");
-    //     // Convert String to Vec
-    //     let _s = s.as_bytes();
-    //     s
-    // }
-
-    // let s: String = String::from("Hello World");
-    // print_str(s.clone());
-    //     println!("{}", s);
-    // }
-    // fn print_str(s: String)  {
+    // fn greetings(s: &str) {
     //     println!("{}",s)
     // }
 
-    // let x: (i32, i32, (), &str) = (1, 2, (), "hello");
-    // let y: (i32, i32, (), &str) = x;
-    // println!("{:?}, {:?}", x, y);
+    // let mut s: String = String::from("");
+    // s.push_str("hello, world");
+    // s.push('!');
+    // assert_eq!(s, "hello, world!");
 
+    // let mut s: String = String::from("hello");
+    // s.push(',');
+    // s.push_str(" world");
+    // s += "!";
+    // println!("{}", s);
 
-    // let s: String = String::from("Hello ");
-    // let mut s1 = s;
-    // s1.push_str("World!");
-    // println!("Success!");
+    // let mut s: String = String::from("I like dogs");
+    // let s1 = s.replace("dogs", "cats");
+    // assert_eq!(s1, "I like cats");
 
+    // let s1: String = String::from("hello,");
+    // let s2: String = String::from("world!");
+    // let s3: String = s1 + s2.as_str(); 
+    // assert_eq!(s3, "hello,world!");
+    // println!("{}", s3);
 
-    // let x: Box<i32>= Box::new(5);
-    // let mut y: Box<i32> = Box::new(1);
-    // *y = 4;
-    // assert_eq!(*x, 5);
-    // println!("Success!");
+    // let s: &str = "hello, world";
+    // greetings(s.to_string());
+    // }
+    // fn greetings(s: String) {
+    //     println!("{}", s)
+    // }
 
-
-
+    // let s: String = "hello, world".to_string();
+    // let s1: &str = s.as_str();
 
 
 
