@@ -1,0 +1,79 @@
+fn main() {
+    let arr: [u8; 3] = [1, 2, 3];
+    let v = Vec::from(arr);
+    is_vec(&v);
+    let v = vec![1, 2, 3];
+    is_vec(&v);
+    // vec!(..) and vec![..] are same macros, so
+    let v = vec!(1, 2, 3);
+    is_vec(&v);
+    // In code below, v is Vec<[u8; 3]> , not Vec<u8>
+    // USE Vec::new and `for` to rewrite the below code 
+    let mut v1 = Vec::new();
+    for &i in arr.iter() {
+        v1.push(i);
+    }
+    is_vec(&v1);
+    assert_eq!(v, v1);
+    println!("Success!");
+}
+fn is_vec(v: &Vec<u8>) {}
+
+
+fn main() {
+    let mut v1 = Vec::from([1, 2, 4]);
+    v1.pop();
+    v1.push(3);
+    let mut v2 = Vec::new();
+    v2.push(1);
+    v2.push(2);
+    v2.push(3);
+    assert_eq!(v1, v2);
+    println!("Success!");
+}
+
+
+#[derive(Debug, PartialEq)]  // Derive PartialEq to allow comparison
+enum IpAddr {
+    V4(String),
+    V6(String),
+}
+fn main() {
+    // FILL in the blank
+    let v: Vec<IpAddr> = vec![
+        IpAddr::V4("127.0.0.1".to_string()), 
+        IpAddr::V6("::1".to_string())
+    ];
+
+    // Comparing two enums need to derive the PartialEq trait
+    assert_eq!(v[0], IpAddr::V4("127.0.0.1".to_string()));
+    assert_eq!(v[1], IpAddr::V6("::1".to_string()));
+    println!("Success!");
+}
+
+
+trait IpAddr {
+    fn display(&self);
+}
+struct V4(String);
+impl IpAddr for V4 {
+    fn display(&self) {
+        println!("ipv4: {:?}", self.0);
+    }
+}
+struct V6(String);
+impl IpAddr for V6 {
+    fn display(&self) {
+        println!("ipv6: {:?}", self.0);
+    }
+}
+fn main() {
+    // FILL in the blank
+    let v: Vec<Box<dyn IpAddr>> = vec![
+        Box::new(V4("127.0.0.1".to_string())),
+        Box::new(V6("::1".to_string())),
+    ];
+    for ip in v {
+        ip.display();
+    }
+}
