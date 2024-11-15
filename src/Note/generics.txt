@@ -1,0 +1,33 @@
+
+// Fill in the blanks to make it work
+struct A;          // Concrete type `A`.
+struct S(A);       // Concrete type `S`.
+struct SGen<T>(T); // Generic type `SGen`.
+fn reg_fn(_s: S) {}
+fn gen_spec_t(_s: SGen<A>) {}
+fn gen_spec_i32(_s: SGen<i32>) {}
+fn generic<T>(_s: SGen<T>) {}
+fn main() {
+    // Using the non-generic functions
+    reg_fn(S(A));          // Concrete type.
+    gen_spec_t(SGen(A));   // Implicitly specified type parameter `A`.
+    gen_spec_i32(SGen(7)); // Implicitly specified type parameter `i32`.
+    // Explicitly specified type parameter `char` to `generic()`.
+    generic::<char>(SGen('A'));
+    // Implicitly specified type parameter `char` to `generic()`.
+    generic(SGen('Z'));
+    println!("Success!");
+}
+
+// Implementing a generic sum function
+fn sum<T>(a: T, b: T) -> T 
+where T: std::ops::Add<Output = T>, // Ensure T supports the addition operation
+{
+    a + b
+}
+fn main() {
+    assert_eq!(5, sum(2i8, 3i8));       // Integer sum
+    assert_eq!(50, sum(20, 30));        // Integer sum
+    assert_eq!(2.46, sum(1.23, 1.23));  // Float sum
+    println!("Success!");
+}
