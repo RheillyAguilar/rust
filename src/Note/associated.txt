@@ -1,0 +1,129 @@
+struct Container(i32, i32);
+// USING associated types to re-implement trait Contains.
+trait Contains {
+    type A;
+    type B;
+    fn contains(&self, _: &Self::A, _: &Self::B) -> bool;
+    fn first(&self) -> i32;
+    fn last(&self) -> i32;
+}
+impl Contains for Container {
+    type A = i32;
+    type B = i32;
+    fn contains(&self, number_1: &Self::A, number_2: &Self::B) -> bool {
+        (&self.0 == number_1) && (&self.1 == number_2)
+    }
+    // Grab the first number.
+    fn first(&self) -> i32 { self.0 }
+    // Grab the last number.
+    fn last(&self) -> i32 { self.1 }
+}
+fn difference<C: Contains>(container: &C) -> i32 {
+    container.last() - container.first()
+}
+fn main() {
+    let number_1 = 3;
+    let number_2 = 10;
+    let container = Container(number_1, number_2);
+    println!("Does container contain {} and {}: {}",
+        &number_1, &number_2,
+        container.contains(&number_1, &number_2));
+    println!("First number: {}", container.first());
+    println!("Last number: {}", container.last());
+    
+    println!("The difference is: {}", difference(&container));
+}
+
+trait Pilot {
+    fn fly(&self) -> String;
+}
+trait Wizard {
+    fn fly(&self) -> String;
+}
+struct Human;
+impl Pilot for Human {
+    fn fly(&self) -> String {
+        String::from("This is your captain speaking.")
+    }
+}
+impl Wizard for Human {
+    fn fly(&self) -> String {
+        String::from("Up!")
+    }
+}
+impl Human {
+    fn fly(&self) -> String {
+        String::from("*waving arms furiously*")
+    }
+}
+fn main() {
+    let person = Human;
+    // Explicitly calling the `fly` method from the `Pilot` trait.
+    assert_eq!(Pilot::fly(&person), "This is your captain speaking.");
+
+    // Explicitly calling the `fly` method from the `Wizard` trait.
+    assert_eq!(Wizard::fly(&person), "Up!");
+    // Calling the `fly` method directly from the `Human` struct.
+    assert_eq!(person.fly(), "*waving arms furiously*");
+    println!("Success!");
+}
+
+
+trait Person {
+    fn name(&self) -> String;
+}
+trait Student: Person {
+    fn university(&self) -> String;
+}
+trait Programmer {
+    fn fav_language(&self) -> String;
+}
+trait CompSciStudent: Programmer + Student {
+    fn git_username(&self) -> String;
+}
+struct CSStudent {
+    name: String,
+    university: String,
+    fav_language: String,
+    git_username: String
+}
+// Implement the necessary traits for CSStudent
+impl Person for CSStudent {
+    fn name(&self) -> String {
+        self.name.clone()
+    }
+}
+impl Student for CSStudent {
+    fn university(&self) -> String {
+        self.university.clone()
+    }
+}
+impl Programmer for CSStudent {
+    fn fav_language(&self) -> String {
+        self.fav_language.clone()
+    }
+}
+impl CompSciStudent for CSStudent {
+    fn git_username(&self) -> String {
+        self.git_username.clone()
+    }
+}
+fn comp_sci_student_greeting(student: &dyn CompSciStudent) -> String {
+    format!(
+        "My name is {} and I attend {}. My favorite language is {}. My Git username is {}",
+        student.name(),
+        student.university(),
+        student.fav_language(),
+        student.git_username()
+    )
+}
+fn main() {
+    let student = CSStudent {
+        name: "Sunfei".to_string(),
+        university: "XXX".to_string(),
+        fav_language: "Rust".to_string(),
+        git_username: "sunface".to_string()
+    };
+    // Call the function with a reference to `student`
+    println!("{}", comp_sci_student_greeting(&student));
+}
