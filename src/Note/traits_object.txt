@@ -1,0 +1,68 @@
+trait Bird {
+    fn quack(&self);
+}
+struct Duck;
+impl Duck {
+    fn fly(&self) {
+        println!("Look, the duck is flying")
+    }
+}
+struct Swan;
+impl Swan {
+    fn fly(&self) {
+        println!("Look, the duck.. oh sorry, the swan is flying")
+    }
+}
+impl Bird for Duck {
+    fn quack(&self) {
+        println!("{}", "duck duck");
+    }
+}
+impl Bird for Swan {
+    fn quack(&self) {
+        println!("{}", "swan swan");
+    }
+}
+fn main() {
+    // FILL in the blank to make the code work.
+    let birds: Vec<Box<dyn Bird>> = vec![
+        Box::new(Duck),
+        Box::new(Swan),
+    ];
+    for bird in birds {
+        bird.quack();
+        // When duck and swan turn into Birds, they all forgot how to fly, only remember how to quack.
+        // So, the code below will cause an error.
+        // bird.fly(); // This line will cause an error because `fly` is not part of the `Bird` trait
+    }
+}
+
+
+trait Draw {
+    fn draw(&self) -> String;
+}
+impl Draw for u8 {
+    fn draw(&self) -> String {
+        format!("u8: {}", *self)
+    }
+}
+impl Draw for f64 {
+    fn draw(&self) -> String {
+        format!("f64: {}", *self)
+    }
+}
+fn main() {
+    let x = 1.1f64;
+    let y = 8u8;
+    // Draw x.
+    draw_with_box(Box::new(x));
+    // Draw y.
+    draw_with_ref(&y);
+    println!("Success!");
+}
+fn draw_with_box(x: Box<dyn Draw>) {
+    println!("{}", x.draw());
+}
+fn draw_with_ref(x: &dyn Draw) {
+    println!("{}", x.draw());
+}
