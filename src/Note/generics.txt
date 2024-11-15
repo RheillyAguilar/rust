@@ -31,3 +31,68 @@ fn main() {
     assert_eq!(2.46, sum(1.23, 1.23));  // Float sum
     println!("Success!");
 }
+
+// Define a generic Point struct
+#[derive(Debug)]
+struct Point<T> {
+    x: T,
+    y: T,
+}
+fn main() {
+    // Integer point
+    let integer = Point { x: 5, y: 10 };
+    // Float point
+    let float = Point { x: 1.0, y: 4.0 };
+    // Print the points
+    println!("{:?}", integer);  // Point { x: 5, y: 10 }
+    println!("{:?}", float);    // Point { x: 1.0, y: 4.0 }
+    println!("Success!");
+}
+
+
+// Define a struct with two generic type parameters
+struct Point<T, U> {
+    x: T,
+    y: U,
+}
+fn main() {
+    // Creating a Point with `x` as an integer and `y` as a String
+    let p = Point { x: 5, y: "hello".to_string() };
+    // Print the success message
+    println!("Success!");
+}
+
+
+// Define a generic struct `Val` that can hold any type T
+struct Val<T> {
+    val: T,
+}
+impl<T> Val<T> {
+    // Implement a method to get a reference to the value
+    fn value(&self) -> &T {
+        &self.val
+    }
+}
+fn main() {
+    let x = Val { val: 3.0 };               // `x` holds a f64
+    let y = Val { val: "hello".to_string() }; // `y` holds a String
+    // This will now print both values correctly
+    println!("{}, {}", x.value(), y.value());
+}
+
+struct Point<T> {
+    x: T,
+    y: T,
+}
+impl Point<f32> {
+    fn distance_from_origin(&self) -> f32 {
+        (self.x.powi(2) + self.y.powi(2)).sqrt()
+    }
+}
+fn main() {
+    // Create a Point with f32 values to match the distance_from_origin method
+    let p = Point { x: 5.0, y: 10.0 };
+
+    // Call the method to get the distance from the origin
+    println!("{}", p.distance_from_origin());
+}
